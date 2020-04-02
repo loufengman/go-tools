@@ -1,0 +1,13 @@
+# Folders
+/vendor/
+/go.sum
+
+# OS Files
+.DS_Store
+
+# Blue Jay Files
+*.exe
+*.exe~
+
+# JetBrains IDE metadata
+.idea

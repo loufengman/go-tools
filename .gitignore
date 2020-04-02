@@ -1,0 +1,5 @@
+/go-mysql/vendor
+/go-log/vendor
+/go-redis/vendor
+/go-kafka/vendor
+.idea

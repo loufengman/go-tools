@@ -105,3 +105,18 @@ func (p *Pool) getByKey(key string) (interface{}, error){
 	}
 	return reply, nil
 }
+
+func (p *Pool) Set(key string, value interface{}) (bool, error){
+	conn := p.pool.Get()
+	defer func() {
+		err := conn.Close()
+		if err != nil {
+			log.Print(err.Error())
+		}
+	}()
+	_, err := conn.Do("SET", key, value)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

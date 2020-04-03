@@ -1,6 +1,7 @@
 package kafka
 
 import (
+	"log"
 	"os"
 	"strings"
 
@@ -12,8 +13,7 @@ import (
 // )
 
 func main() {
-	sarama.Logger = logger
-
+	sarama.Logger = &log.Logger{}
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Partitioner = sarama.NewRandomPartitioner
@@ -26,14 +26,14 @@ func main() {
 
 	producer, err := sarama.NewSyncProducer(strings.Split("localhost:9092", ","), config)
 	if err != nil {
-		logger.Println("Failed to produce message: %s", err)
+		sarama.Logger.Println("Failed to produce message: %s", err)
 		os.Exit(500)
 	}
 	defer producer.Close()
 
 	partition, offset, err := producer.SendMessage(msg)
 	if err != nil {
-		logger.Println("Failed to produce message: ", err)
+		sarama.Logger.Println("Failed to produce message: ", err)
 	}
-	logger.Printf("partition=%d, offset=%d\n", partition, offset)
+	sarama.Logger.Printf("partition=%d, offset=%d\n", partition, offset)
 }
